@@ -1,16 +1,17 @@
-enum Color { RED, BLACK };
+#include <string>
+using namespace std;
 
 class Node {
 public:
   double price;
   int quantity;
-  Color color;
+  string color;
   Node *left, *right, *parent;
 
   Node(double price, int quantity) {
     this->price = price;
     this->quantity = quantity;
-    color = RED;
+    color = "RED";
     left = right = parent = nullptr;
   }
 };
@@ -63,5 +64,49 @@ class RedBlackTree {
 
     y->right = x;
     x->parent = y;
+  }
+
+  void fixInsert(Node *k) {
+    while (k != root && k->parent->color == "RED") {
+      if (k->parent == k->parent->parent->left) {
+        Node *u = k->parent->parent->right;
+
+        if (u->color == "RED") {
+          k->parent->color = "BLACK";
+          u->color = "BLACK";
+          k->parent->parent->color = "RED";
+          k = k->parent->parent;
+        } else {
+          if (k == k->parent->right) {
+            k = k->parent;
+            rotateLeft(k);
+          }
+
+          k->parent->color = "BLACK";
+          k->parent->parent->color = "RED";
+          rotateRight(k->parent->parent);
+        }
+      } else {
+        Node *u = k->parent->parent->left;
+
+        if (u->color == "RED") {
+          k->parent->color = "BLACK";
+          u->color = "BLACK";
+          k->parent->parent->color = "RED";
+          k = k->parent->parent;
+        } else {
+          if (k == k->parent->left) {
+            k = k->parent;
+            rotateRight(k);
+          }
+
+          k->parent->color = "BLACK";
+          k->parent->parent->color = "RED";
+          rotateLeft(k->parent->parent);
+        }
+      }
+    }
+
+    root->color = "BLACK";
   }
 };
