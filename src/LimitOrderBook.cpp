@@ -1,4 +1,4 @@
-#include <string>
+#include <iostream>
 using namespace std;
 
 class Node {
@@ -264,12 +264,54 @@ public:
   double getBestBid() {
     Node *n = bids.maximum();
 
-    return n ? n->price : -1;
+    return (n == nullptr || n->price == 0) ? -1 : n->price;
   }
 
   double getBestAsk() {
     Node *n = asks.minimum();
 
-    return n ? n->price : -1;
+    return (n == nullptr || n->price == 0) ? -1 : n->price;
+  }
+
+  void matchOrders() {
+    Node *bestBid = bids.maximum();
+    Node *bestAsk = asks.minimum();
+
+    while (bestBid && bestAsk && bestBid->price >= bestAsk->price) {
+      int tradedQty = min(bestBid->quantity, bestAsk->quantity);
+
+      cout << "TRADE: " << tradedQty << " @ " << bestAsk->price << "\n";
+
+      bestBid->quantity -= tradedQty;
+      bestAsk->quantity -= tradedQty;
+
+      if (bestBid->quantity == 0) {
+        bestBid = bids.predecessor(bestBid);
+      }
+
+      if (bestAsk->quantity == 0) {
+        bestAsk = asks.successor(bestAsk);
+      }
+    }
+  }
+
+  void displayBook(int depth = 5) {
+    cout << "---- BIDS ----\n";
+
+    Node *b = bids.maximum();
+
+    for (int i = 0; b && i < depth; i++) {
+      cout << b->price << " : " << b->quantity << "\n";
+      b = bids.predecessor(b);
+    }
+
+    cout << "---- ASKS ----\n";
+
+    Node *a = asks.minimum();
+
+    for (int i = 0; a && i < depth; i++) {
+      cout << a->price << " : " << a->quantity << "\n";
+      a = asks.successor(a);
+    }
   }
 };
