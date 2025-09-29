@@ -17,6 +17,7 @@ public:
 };
 
 class RedBlackTree {
+private:
   Node *root;
   Node *NIL;
 
@@ -243,5 +244,32 @@ public:
     }
 
     return p;
+  }
+};
+
+class LimitOrderBook {
+private:
+  RedBlackTree bids;
+  RedBlackTree asks;
+
+public:
+  void addOrder(double price, int qty, bool isBuy) {
+    if (isBuy) {
+      bids.insert(price, qty);
+    } else {
+      asks.insert(price, qty);
+    }
+  }
+
+  double getBestBid() {
+    Node *n = bids.maximum();
+
+    return n ? n->price : -1;
+  }
+
+  double getBestAsk() {
+    Node *n = asks.minimum();
+
+    return n ? n->price : -1;
   }
 };
