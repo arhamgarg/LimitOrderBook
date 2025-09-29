@@ -2,7 +2,7 @@
 using namespace std;
 
 class Node {
-public:
+ public:
   double price;
   int quantity;
   string color;
@@ -108,5 +108,58 @@ class RedBlackTree {
     }
 
     root->color = "BLACK";
+  }
+
+ public:
+  RedBlackTree() {
+    NIL = new Node(0, 0);
+    NIL->color = "BLACK";
+    NIL->left = NIL->right = NIL;
+    root = NIL;
+  }
+
+  void insert(double price, int quantity) {
+    Node *newNode = new Node(price, quantity);
+
+    newNode->left = NIL;
+    newNode->right = NIL;
+
+    Node *parent = nullptr;
+    Node *current = root;
+
+    while (current != NIL) {
+      parent = current;
+
+      if (newNode->price < current->price) {
+        current = current->left;
+      } else if (newNode->price > current->price) {
+        current = current->right;
+      } else {
+        current->quantity += quantity;
+        delete newNode;
+        return;
+      }
+    }
+
+    newNode->parent = parent;
+
+    if (parent == nullptr) {
+      root = newNode;
+    } else if (newNode->price < parent->price) {
+      parent->left = newNode;
+    } else {
+      parent->right = newNode;
+    }
+
+    if (newNode->parent == nullptr) {
+      newNode->color = "BLACK";
+      return;
+    }
+
+    if (newNode->parent->parent == nullptr) {
+      return;
+    }
+
+    fixInsert(newNode);
   }
 };
