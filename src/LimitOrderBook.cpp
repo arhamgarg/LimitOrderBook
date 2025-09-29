@@ -2,7 +2,7 @@
 using namespace std;
 
 class Node {
- public:
+public:
   double price;
   int quantity;
   string color;
@@ -110,7 +110,7 @@ class RedBlackTree {
     root->color = "BLACK";
   }
 
- public:
+public:
   RedBlackTree() {
     NIL = new Node(0, 0);
     NIL->color = "BLACK";
@@ -161,5 +161,87 @@ class RedBlackTree {
     }
 
     fixInsert(newNode);
+  }
+
+  Node *search(double price) {
+    Node *temp = root;
+
+    while (temp != NIL) {
+      if (price == temp->price) {
+        return temp;
+      } else if (price < temp->price) {
+        temp = temp->left;
+      } else {
+        temp = temp->right;
+      }
+    }
+
+    return NIL;
+  }
+
+  Node *minimum(Node *node = nullptr) {
+    Node *temp = (node == nullptr) ? root : node;
+
+    if (temp == NIL) {
+      return NIL;
+    }
+
+    while (temp->left != NIL) {
+      temp = temp->left;
+    }
+
+    return temp;
+  }
+
+  Node *maximum(Node *node = nullptr) {
+    Node *temp = (node == nullptr) ? root : node;
+
+    if (temp == NIL) {
+      return NIL;
+    }
+
+    while (temp->right != NIL) {
+      temp = temp->right;
+    }
+
+    return temp;
+  }
+
+  Node *predecessor(Node *x) {
+    if (x == NIL) {
+      return NIL;
+    }
+
+    if (x->left != NIL) {
+      return maximum(x->left);
+    }
+
+    Node *p = x->parent;
+
+    while (p != NIL && x == p->left) {
+      x = p;
+      p = p->parent;
+    }
+
+    return p;
+  }
+
+  Node *successor(Node *x) {
+    if (x == NIL) {
+      return NIL;
+    }
+
+    if (x->right != NIL) {
+      return minimum(x->right);
+    }
+
+    Node *p = x->parent;
+
+    while (p != NIL && x == p->right) {
+      x = p;
+      p = p->parent;
+    }
+
+    return p;
   }
 };
