@@ -315,3 +315,29 @@ public:
     }
   }
 };
+
+int main()
+{
+  LimitOrderBook lob;
+
+  lob.addOrder(100.5, 50, true);
+  lob.addOrder(101.0, 30, true);
+  lob.addOrder(99.5, 40, true);
+
+  lob.addOrder(102.0, 20, false);
+  lob.addOrder(103.5, 10, false);
+  lob.addOrder(100.0, 25, false);
+
+  lob.displayBook(3);
+
+  cout << "Best Bid: " << lob.getBestBid() << endl;
+  cout << "Best Ask: " << lob.getBestAsk() << endl;
+
+  cout << "\n--- Matching Orders ---\n";
+
+  lob.matchOrders();
+
+  cout << "\n--- After Matching ---\n";
+
+  lob.displayBook(3);
+}
