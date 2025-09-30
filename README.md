@@ -280,16 +280,16 @@ Key Contributions:
 
 Merged Pull Requests:
 
-[PR #10 : ](https://github.com/arhamgarg/LimitOrderBook/pull/10)
-[PR #9: Comprehensive README and algorithm documentation](https://github.com/arhamgarg/LimitOrderBook/pull/9)
-[PR #8: Example LOB driver integration](https://github.com/arhamgarg/LimitOrderBook/pull/8)
-[PR #7: Order matching and display features](https://github.com/arhamgarg/LimitOrderBook/pull/7)
-[PR #6: Core LOB implementation](https://github.com/arhamgarg/LimitOrderBook/pull/6)
-[PR #5: Search and retrieval methods](https://github.com/arhamgarg/LimitOrderBook/pull/5)
-[PR #4: Insert functionality](https://github.com/arhamgarg/LimitOrderBook/pull/4)
-[PR #3: Fix insertion logic](https://github.com/arhamgarg/LimitOrderBook/pull/3)
-[PR #2: Rotation operations](https://github.com/arhamgarg/LimitOrderBook/pull/2)
-[PR #1: Initial node structure](https://github.com/arhamgarg/LimitOrderBook/pull/1)
+* [PR #10 : Contributions with detailed history and profiles](https://github.com/arhamgarg/LimitOrderBook/pull/10)
+* [PR #9: Comprehensive README and algorithm documentation](https://github.com/arhamgarg/LimitOrderBook/pull/9)
+* [PR #8: Example LOB driver integration](https://github.com/arhamgarg/LimitOrderBook/pull/8)
+* [PR #7: Order matching and display features](https://github.com/arhamgarg/LimitOrderBook/pull/7)
+* [PR #6: Core LOB implementation](https://github.com/arhamgarg/LimitOrderBook/pull/6)
+* [PR #5: Search and retrieval methods](https://github.com/arhamgarg/LimitOrderBook/pull/5)
+* [PR #4: Insert functionality](https://github.com/arhamgarg/LimitOrderBook/pull/4)
+* [PR #3: Fix insertion logic](https://github.com/arhamgarg/LimitOrderBook/pull/3)
+* [PR #2: Rotation operations](https://github.com/arhamgarg/LimitOrderBook/pull/2)
+* [PR #1: Initial node structure](https://github.com/arhamgarg/LimitOrderBook/pull/1)
 
 Technical Focus: Project Management • Tree Traversal • Search Algorithms • Version Control
 
@@ -308,7 +308,7 @@ Key Contributions:
 
 * Implemented rotation operations (rotateLeft() and rotateRight()) essential for tree rebalancing ([commit 0fc5b92](https://github.com/arhamgarg/LimitOrderBook/commit/0fc5b92a814e43a1bb200a658f0efb3b7625487d))
 * Designed and built the core LimitOrderBook class with basic order management functionality ([commit 5e5b62d](https://github.com/arhamgarg/LimitOrderBook/commit/5e5b62df887f7fd94def670a79d11558533f94e9))
-* Enhanced Contributors section with detailed profiles and contribution history ([commit ]())
+* Enhanced Contributors section with detailed profiles and contribution history ([commit 4d372e1](https://github.com/Naveen77qwerty/LimitOrderBook/commit/4d372e18817f40fcb1a7ecc61cd8a2ccdce8d8fb))
 
 Technical Focus: Red-Black Trees • Rotation Algorithms • Tree Rebalancing • System Architecture
 
