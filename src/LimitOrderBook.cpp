@@ -32,7 +32,7 @@ private:
 
     y->parent = x->parent;
 
-    if (x->parent == nullptr) {
+    if (x->parent == NIL) {
       root = y;
     } else if (x == x->parent->left) {
       x->parent->left = y;
@@ -55,7 +55,7 @@ private:
 
     y->parent = x->parent;
 
-    if (x->parent == nullptr) {
+    if (x->parent == NIL) {
       root = y;
     } else if (x == x->parent->right) {
       x->parent->right = y;
@@ -111,12 +111,87 @@ private:
     root->color = "BLACK";
   }
 
+  void transplant(Node *u, Node *v) {
+    if (u->parent == NIL) {
+      root = v;
+    } else if (u == u->parent->left) {
+      u->parent->left = v;
+    } else {
+      u->parent->right = v;
+    }
+
+    v->parent = u->parent;
+  }
+
+  void fixDelete(Node *k) {
+    while (k != root && k->color == "BLACK") {
+      if (k == k->parent->left) {
+        Node *w = k->parent->right;
+
+        if (w->color == "RED") {
+          w->color = "BLACK";
+          k->parent->color = "RED";
+          rotateLeft(k->parent);
+          w = k->parent->right;
+        }
+
+        if (w->left->color == "BLACK" && w->right->color == "BLACK") {
+          w->color = "RED";
+          k = k->parent;
+        } else {
+          if (w->right->color == "BLACK") {
+            w->left->color = "BLACK";
+            w->color = "RED";
+            rotateRight(w);
+            w = k->parent->right;
+          }
+
+          w->color = k->parent->color;
+          k->parent->color = "BLACK";
+          w->right->color = "BLACK";
+          rotateLeft(k->parent);
+          k = root;
+        }
+      } else {
+        Node *w = k->parent->left;
+
+        if (w->color == "RED") {
+          w->color = "BLACK";
+          k->parent->color = "RED";
+          rotateRight(k->parent);
+          w = k->parent->left;
+        }
+
+        if (w->right->color == "BLACK" && w->left->color == "BLACK") {
+          w->color = "RED";
+          k = k->parent;
+        } else {
+          if (w->left->color == "BLACK") {
+            w->right->color = "BLACK";
+            w->color = "RED";
+            rotateLeft(w);
+            w = k->parent->left;
+          }
+
+          w->color = k->parent->color;
+          k->parent->color = "BLACK";
+          w->left->color = "BLACK";
+          rotateRight(k->parent);
+          k = root;
+        }
+      }
+    }
+
+    k->color = "BLACK";
+  }
+
 public:
   RedBlackTree() {
     NIL = new Node(0, 0);
     NIL->color = "BLACK";
-    NIL->left = NIL->right = NIL;
+    NIL->left = NIL->right = NIL->parent = NIL;
     root = NIL;
+    root->parent = NIL;
   }
 
   void insert(double price, int quantity) {
@@ -125,7 +200,7 @@ public:
     newNode->left = NIL;
     newNode->right = NIL;
 
-    Node *parent = nullptr;
+    Node *parent = NIL;
     Node *current = root;
 
     while (current != NIL) {
@@ -144,20 +219,21 @@ public:
 
     newNode->parent = parent;
 
-    if (parent == nullptr) {
+    if (parent == NIL) {
       root = newNode;
+      newNode->parent = NIL;
     } else if (newNode->price < parent->price) {
       parent->left = newNode;
     } else {
       parent->right = newNode;
     }
 
-    if (newNode->parent == nullptr) {
+    if (newNode->parent == NIL) {
       newNode->color = "BLACK";
       return;
     }
 
-    if (newNode->parent->parent == nullptr) {
+    if (newNode->parent->parent == NIL) {
       return;
     }
 
@@ -208,6 +284,25 @@ public:
     return temp;
   }
 
+  Node *successor(Node *x) {
+    if (x == NIL) {
+      return NIL;
+    }
+
+    if (x->right != NIL) {
+      return minimum(x->right);
+    }
+
+    Node *p = x->parent;
+
+    while (p != NIL && x == p->right) {
+      x = p;
+      p = p->parent;
+    }
+
+    return p;
+  }
+
   Node *predecessor(Node *x) {
     if (x == NIL) {
       return NIL;
@@ -227,24 +322,50 @@ public:
     return p;
   }
 
-  Node *successor(Node *x) {
-    if (x == NIL) {
-      return NIL;
+  void deleteNode(double price) {
+    Node *z = search(price);
+
+    if (z == NIL) {
+      return;
     }
 
-    if (x->right != NIL) {
-      return minimum(x->right);
+    Node *y = z;
+    Node *x;
+    string yOriginalColor = y->color;
+
+    if (z->left == NIL) {
+      x = z->right;
+      transplant(z, z->right);
+    } else if (z->right == NIL) {
+      x = z->left;
+      transplant(z, z->left);
+    } else {
+      y = minimum(z->right);
+      yOriginalColor = y->color;
+      x = y->right;
+
+      if (y->parent == z) {
+        x->parent = y;
+      } else {
+        transplant(y, y->right);
+        y->right = z->right;
+        y->right->parent = y;
+      }
+
+      transplant(z, y);
+      y->left = z->left;
+      y->left->parent = y;
+      y->color = z->color;
     }
 
-    Node *p = x->parent;
+    delete z;
 
-    while (p != NIL && x == p->right) {
-      x = p;
-      p = p->parent;
+    if (yOriginalColor == "BLACK") {
+      fixDelete(x);
     }
-
-    return p;
   }
+
+  Node *getNil() { return NIL; }
 };
 
 class LimitOrderBook {
@@ -264,20 +385,21 @@ public:
   double getBestBid() {
     Node *n = bids.maximum();
 
-    return (n == nullptr || n->price == 0) ? -1 : n->price;
+    return (n == bids.getNil()) ? -1 : n->price;
   }
 
   double getBestAsk() {
     Node *n = asks.minimum();
 
-    return (n == nullptr || n->price == 0) ? -1 : n->price;
+    return (n == asks.getNil()) ? -1 : n->price;
   }
 
   void matchOrders() {
     Node *bestBid = bids.maximum();
     Node *bestAsk = asks.minimum();
 
-    while (bestBid && bestAsk && bestBid->price >= bestAsk->price) {
+    while (bestBid != bids.getNil() && bestAsk != asks.getNil() &&
+           bestBid->price >= bestAsk->price) {
       int tradedQty = min(bestBid->quantity, bestAsk->quantity);
 
       cout << "TRADE: " << tradedQty << " @ " << bestAsk->price << "\n";
@@ -285,13 +407,19 @@ public:
       bestBid->quantity -= tradedQty;
       bestAsk->quantity -= tradedQty;
 
+      double bidPrice = bestBid->price;
+      double askPrice = bestAsk->price;
+
       if (bestBid->quantity == 0) {
-        bestBid = bids.predecessor(bestBid);
+        bids.deleteNode(bidPrice);
       }
 
       if (bestAsk->quantity == 0) {
-        bestAsk = asks.successor(bestAsk);
+        asks.deleteNode(askPrice);
       }
+
+      bestBid = bids.maximum();
+      bestAsk = asks.minimum();
     }
   }
 
@@ -300,7 +428,7 @@ public:
 
     Node *b = bids.maximum();
 
-    for (int i = 0; b && i < depth; i++) {
+    for (int i = 0; b != bids.getNil() && i < depth; i++) {
       cout << b->price << " : " << b->quantity << "\n";
       b = bids.predecessor(b);
     }
@@ -309,15 +437,14 @@ public:
 
     Node *a = asks.minimum();
 
-    for (int i = 0; a && i < depth; i++) {
+    for (int i = 0; a != asks.getNil() && i < depth; i++) {
       cout << a->price << " : " << a->quantity << "\n";
       a = asks.successor(a);
     }
   }
 };
 
-int main()
-{
+int main() {
   LimitOrderBook lob;
 
   lob.addOrder(100.5, 50, true);
@@ -330,14 +457,12 @@ int main()
 
   lob.displayBook(3);
 
-  cout << "Best Bid: " << lob.getBestBid() << endl;
-  cout << "Best Ask: " << lob.getBestAsk() << endl;
+  cout << "Best Bid: " << lob.getBestBid() << "\n";
+  cout << "Best Ask: " << lob.getBestAsk() << "\n";
 
   cout << "\n--- Matching Orders ---\n";
-
   lob.matchOrders();
 
   cout << "\n--- After Matching ---\n";
-
   lob.displayBook(3);
 }
