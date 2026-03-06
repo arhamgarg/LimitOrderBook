@@ -1,11 +1,5 @@
 # Limit Order Book simulation for High-Frequency Trading
 
-**Course:** Data Structures and Algorithms (23CSE203)
-
-**Case Study:** A Red-Black Tree based Limit Order Book simulation for High-Frequency Trading
-
-## Case Study Overview
-
 This repository implements a simplified Limit Order Book (LOB) simulator using Red-Black Trees (RBTs) as the primary data structure. The simulator is written in C++ and demonstrates how a balanced binary search tree can maintain ordered price levels efficiently for matching buy (bid) and sell (ask) orders.
 
 This repository is intended as a case study for understanding data structures (balanced BSTs) and their application in a latency-sensitive domain — financial market order matching.
@@ -24,23 +18,6 @@ Red-Black Trees provide O(log n) average and worst-case time complexities for in
 ## Repository Contents
 
 - `LimitOrderBook.cpp` — single-file C++ implementation (contains `Node`, `RedBlackTree`, `LimitOrderBook`, and `main`).
-
-## How to build and run
-
-Requirements:
-- A C++ compiler (e.g. `g++`) supporting C++11 or newer.
-
-Build and run (Unix-like systems):
-
-```bash
-# Compile
-g++ LimitOrderBook.cpp -o lob -std=c++11
-
-# Run
-./lob
-```
-
-This will run the sample `main()` included in the file and print the initial book, the best bid/ask, any trades produced during matching, and the book after matching.
 
 ## High-level design
 
@@ -230,90 +207,3 @@ TRADE: 25 @ 100
 102 : 20
 103.5 : 10
 ```
-
-## Contributors
-
-This case study was developed collaboratively as part of the Data Structures and Algorithms (23CSE203) course. Each team member contributed significantly to different aspects of the implementation, bringing together expertise in data structures, algorithms, and financial systems.
-
-🟣 **Arham Garg**
-
-<p align="center">
-  <a href="https://github.com/arhamgarg">
-    <img src="https://github.com/arhamgarg.png" width="150px" style="border-radius: 50%;" alt="Arham Garg"/>
-  </a>
-</p>
-<p align="center">
-  <a href="https://github.com/arhamgarg">@arhamgarg</a>
-</p>
-
-Arham served as the case study coordinator, managing the repository and ensuring smooth integration of all features. He was responsible for merging pull requests and maintaining code quality throughout development.
-
-**Key Contributions:**
-* Implemented the foundational Node class for Red-Black Tree structure([commit c371c7d](https://github.com/arhamgarg/LimitOrderBook/commit/c371c7d70ff7c6d06d6d04d366c865a5effca0ac))
-* Developed search and retrieval operations including minimum(), maximum(), predecessor(), and successor() methods([commit 96b2551](https://github.com/arhamgarg/LimitOrderBook/commit/96b2551aaf34c755b0866f38078ecf3366f9e131))
-* Integrated all feature branches through PR reviews and merges
-
-**Merged Pull Requests:**
-* [PR #10: Contributions with detailed history and profiles](https://github.com/arhamgarg/LimitOrderBook/pull/10)
-* [PR #9: Comprehensive README and algorithm documentation](https://github.com/arhamgarg/LimitOrderBook/pull/9)
-* [PR #8: Example LOB driver integration](https://github.com/arhamgarg/LimitOrderBook/pull/8)
-* [PR #7: Order matching and display features](https://github.com/arhamgarg/LimitOrderBook/pull/7)
-* [PR #6: Core LOB implementation](https://github.com/arhamgarg/LimitOrderBook/pull/6)
-* [PR #5: Search and retrieval methods](https://github.com/arhamgarg/LimitOrderBook/pull/5)
-* [PR #4: Insert functionality](https://github.com/arhamgarg/LimitOrderBook/pull/4)
-* [PR #3: Fix insertion logic](https://github.com/arhamgarg/LimitOrderBook/pull/3)
-* [PR #2: Rotation operations](https://github.com/arhamgarg/LimitOrderBook/pull/2)
-* [PR #1: Initial node structure](https://github.com/arhamgarg/LimitOrderBook/pull/1)
-
-🔵 **S S Naveen**
-
-<p align="center">
-  <a href="https://github.com/Naveen77qwerty">
-    <img src="https://github.com/Naveen77qwerty.png" width="150px" style="border-radius: 50%;" alt="S S Naveen"/>
-  </a>
-</p>
-<p align="center">
-  <a href="https://github.com/Naveen77qwerty">@Naveen77qwerty</a>
-</p>
-
-Naveen focused on implementing the fundamental Red-Black Tree operations and the core Limit Order Book infrastructure that forms the backbone of this trading system. He also enhanced the contributors section of the README.
-
-**Key Contributions:**
-* Implemented rotation operations (rotateLeft() and rotateRight()) essential for tree rebalancing ([commit 0fc5b92](https://github.com/arhamgarg/LimitOrderBook/commit/0fc5b92a814e43a1bb200a658f0efb3b7625487d))
-* Designed and built the core LimitOrderBook class with basic order management functionality ([commit 5e5b62d](https://github.com/arhamgarg/LimitOrderBook/commit/5e5b62df887f7fd94def670a79d11558533f94e9))
-* Enhanced Contributors section with detailed profiles and contribution history ([commit 4d372e1](https://github.com/arhamgarg/LimitOrderBook/commit/d83a76e22e39f830cf67b2b4f6fbad51b92f7c56))
-
-🟢 **A Adithyan**
-
-<p align="center">
-  <a href="https://github.com/Cirutuu">
-    <img src="https://github.com/Cirutuu.png" width="150px" style="border-radius: 50%;" alt="A Adithyan"/>
-  </a>
-</p>
-<p align="center">
-  <a href="https://github.com/Cirutuu">@Cirutuu</a>
-</p>
-
-Adithyan specialised in the critical tree balancing algorithms and the order matching engine, implementing the complex logic that ensures data structure integrity and efficient trade execution.
-
-**Key Contributions:**
-* Implemented the Red-Black Tree fixInsert() method for maintaining tree balance after insertions ([commit 09a1f7b](https://github.com/arhamgarg/LimitOrderBook/commit/09a1f7b1b8c65ad7813e077e65a9c3a5268095e0))
-* Developed the order matching algorithm that executes trades between bids and asks ([commit 975f12f](https://github.com/arhamgarg/LimitOrderBook/commit/975f12fae5eb6175450a81c7f83ac5ca480001fa))
-
-🔴 **H Dharshan**
-
-<p align="center">
-  <a href="https://github.com/Dharshan2208">
-    <img src="https://github.com/Dharshan2208.png" width="150px" style="border-radius: 50%;" alt="H Dharshan"/>
-  </a>
-</p>
-<p align="center">
-  <a href="https://github.com/Dharshan2208">@Dharshan2208</a>
-</p>
-
-Dharshan handled critical implementation details and created comprehensive documentation that makes this complex case study accessible and understandable.
-
-**Key Contributions:**
-* Implemented the tree constructor and insert method with duplicate price handling ([commit ed4d26d](https://github.com/arhamgarg/LimitOrderBook/commit/ed4d26df1686437fee813a10805069730d12ea35))
-* Developed the main driver program demonstrating complete LOB functionality ([commit 7821fa6](https://github.com/arhamgarg/LimitOrderBook/commit/7821fa60e09139a1dabb0bd433357914edbca8fb))
-* Authored comprehensive README documentation with detailed algorithm explanations ([commit 3bb00a6](https://github.com/arhamgarg/LimitOrderBook/commit/3bb00a697e4d0be3d18fc6d148f7db5205920662))
